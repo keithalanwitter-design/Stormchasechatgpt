@@ -58,7 +58,7 @@ function updateMap(){
  $('#legend-text').textContent=state.scope==='live'?'Selected point · no WHIRL forecast polygons':state.scope==='official'?'SPC categorical · NWS alert boundaries':(state.layers.size?'Simulated regions · see ingredient cards':'No demo layers selected');
  $('#globe-caption').classList.toggle('hidden',state.view!=='globe'||state.scope==='official');
  $('#scope-switch').textContent=state.scope==='demo'?'View current official context →':'← Return to simulated forecast';
- $('#lead-status').textContent=state.scope==='official'?'Map shows current official data; demo timeline does not control it':'Illustrative output · no forecast pipeline connected';
+ $('#lead-status').textContent=state.scope==='live'?'Point forecast only · no single initialization supplied':state.scope==='official'?'Map shows current official data; demo timeline does not control it':'Illustrative output · no forecast pipeline connected';
  if(!state.mapReady)return;
  pointMarker?.remove();pointMarker=null;if(state.scope==='live'){const el=document.createElement('div');el.className='point-marker';el.setAttribute('aria-label','Selected point, not a tornado target');pointMarker=new maplibregl.Marker({element:el}).setLngLat(pointState?.location?.center||[-89.98,38.52]).addTo(map);}
  map.getSource('demo').setData(demoFeatures(state.lead,state.model));
