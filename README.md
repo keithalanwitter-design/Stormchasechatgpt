@@ -1,6 +1,8 @@
 # StormChase — WHIRL Forecasting Platform v0.8
 
-Personal, unpublished severe-weather forecasting and research prototype. Spring 2027 development target. WHIRL means **Witter–Hart Integrated Rotational Likelihood**. It is experimental, not an official warning or a calibrated tornado probability.
+**[Open the live StormChase preview](https://stormchase-whirl-observatory.sbtraining.chatgpt.site)** — owner-private; sign in with the ChatGPT account that created this project. The preview is currently accessible to the owner, not other GitHub visitors.
+
+Personal, privately hosted severe-weather forecasting and research prototype. Spring 2027 development target. WHIRL means **Witter–Hart Integrated Rotational Likelihood**. It is experimental, not an official warning or a calibrated tornado probability.
 
 ## Quick start
 
@@ -86,7 +88,7 @@ API references: https://open-meteo.com/en/docs/gfs-api and https://www.weather.g
 
 ## GitHub review
 
-Repository: https://github.com/keithalanwitter-design/Stormchasechatgpt . Source visibility is public; website hosting remains disabled. GitHub stores the code and feedback, rather than rendering this application automatically.
+Repository: https://github.com/keithalanwitter-design/Stormchasechatgpt . Source visibility is public; GitHub Pages hosting remains disabled. A separate owner-private hosted preview is available. GitHub stores the code and feedback, rather than rendering this application automatically.
 
 To see the app without development tools: open the latest successful **Verify StormChase** run under **Actions**, download the `stormchase-preview` artifact, extract it, and open `StormChase-WHIRL-Preview.html` in a browser with internet and WebGL. Downloading Actions artifacts may require signing in. For the best supported experience, clone this repository and use the quick-start commands above.
 
