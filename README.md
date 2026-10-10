@@ -1,8 +1,7 @@
 # StormChase — WHIRL Forecasting Platform v0.8
 
-**[Open the live StormChase preview](https://stormchase-whirl-observatory.sbtraining.chatgpt.site)** — owner-private; sign in with the ChatGPT account that created this project. The preview is currently accessible to the owner, not other GitHub visitors.
-
-Personal, privately hosted severe-weather forecasting and research prototype. Spring 2027 development target. WHIRL means **Witter–Hart Integrated Rotational Likelihood**. It is experimental, not an official warning or a calibrated tornado probability.
+**GitHub Pages website files are uploaded to the `gh-pages` branch.** Activate publishing in Settings → Pages → Deploy from a branch → gh-pages → / (root) → Save. The public website address will be https://keithalanwitter-design.github.io/Stormchasechatgpt/ . No ChatGPT sign-in is required.
+Personal severe-weather forecasting and research prototype. Spring 2027 development target. WHIRL means **Witter–Hart Integrated Rotational Likelihood**. It is experimental, not an official warning or a calibrated tornado probability.
 
 ## Quick start
 
@@ -15,7 +14,7 @@ npm run build
 npm run dev
 ```
 
-Open the Vite URL. No keys or account setup are needed. Nothing deploys automatically. GPS is never requested by the new Forecast Center.
+Open the Vite URL. No keys or account setup are needed. Pages publishes the selected gh-pages branch after activation. GPS is never requested by the new Forecast Center.
 
 For a browser-openable preview without a server:
 
@@ -49,24 +48,7 @@ GitHub Actions runs `npm ci`, tests, build and portable-preview generation. A bu
 
 ## Version control / GitHub
 
-The package includes a two-commit local Git history in `stormchase-history.bundle`: baseline import and v0.6 implementation. No matching repository was found among the connected GitHub repositories; available GitHub tools cannot create repositories. No remote was fabricated and no public deployment occurred.
-
-To recover the exact tracked history into a new checkout:
-
-```sh
-git clone stormchase-history.bundle stormchase-whirl
-cd stormchase-whirl
-```
-
-After creating an empty **private** GitHub repository, replace the placeholder below with its actual URL:
-
-```sh
-git remote remove origin
-git remote add origin <private-repository-url>
-git push -u origin main
-```
-
-Do not connect automatic public deployment yet. The source ZIP is a checkpoint until a real GitHub remote is established.
+Source and automated checks: https://github.com/keithalanwitter-design/Stormchasechatgpt . The built website is on the `gh-pages` branch, with asset paths configured for this repository. The earlier downloadable source checkpoint retains pre-upload local Git history.
 
 See [architecture and backlog](docs/ARCHITECTURE_BACKLOG.md), [audit](docs/AUDIT.md), and [data provenance](docs/DATA_PROVENANCE.md).
 
@@ -82,14 +64,14 @@ The default observatory opens in live point mode with Belleville, IL as its samp
 
 Move the real timeline to inspect model CAPE, CIN magnitude, 2 m dew point, temperature, 10 m winds, cloud cover and precipitation. Slider changes create a what-if scenario and preserve a displayed real baseline. SRH500, effective shear and mixed-layer LCL remain blank until manually assumed. Fingerprint spokes are slider display ranges, not tornado probabilities; missing spokes are omitted. Pin a comparison, export/import a hypothesis JSON for a friend, choose Orbit/Ion/Ember themes, or enter focus view. Importing a historical scenario does not turn it into current guidance.
 
-Browser requests have cancellation/timeout and visible errors. Model and NWS baselines age out after one hour and need manual refresh. NWS current map feeds retain their five-minute policy. No API keys are required for this personal prototype. Open-Meteo attribution is visible; review its terms/usage limits before public or commercial expansion. Direct browser requests are a prototype: a cached server adapter remains next work. Nothing is published automatically.
+Browser requests have cancellation/timeout and visible errors. Model and NWS baselines age out after one hour and need manual refresh. NWS current map feeds retain their five-minute policy. No API keys are required for this personal prototype. Open-Meteo attribution is visible; review its terms/usage limits before public or commercial expansion. Direct browser requests are a prototype: a cached server adapter remains next work. The published website retains these experimental labels.
 
 API references: https://open-meteo.com/en/docs/gfs-api and https://www.weather.gov/documentation/services-web-api . These point APIs are a quick path to useful interactivity. The sounding processor is still needed for full low-level wind diagnostics and scientifically reproducible model comparison.
 
 ## GitHub review
 
-Repository: https://github.com/keithalanwitter-design/Stormchasechatgpt . Source visibility is public; GitHub Pages hosting remains disabled. A separate owner-private hosted preview is available. GitHub stores the code and feedback, rather than rendering this application automatically.
+Repository: https://github.com/keithalanwitter-design/Stormchasechatgpt . Source visibility is public. Built website files are on `gh-pages`; repository Pages activation is the final owner setting.
 
 To see the app without development tools: open the latest successful **Verify StormChase** run under **Actions**, download the `stormchase-preview` artifact, extract it, and open `StormChase-WHIRL-Preview.html` in a browser with internet and WebGL. Downloading Actions artifacts may require signing in. For the best supported experience, clone this repository and use the quick-start commands above.
 
-Use **Issues → New issue → Preview feedback** to record your device, selected location/time, screenshots and the behavior you expected. No Pages deployment is configured. The earlier source archive includes the pre-upload local Git history.
+Use **Issues → New issue → Preview feedback** to record your device, selected location/time, screenshots and the behavior you expected. Publish the `gh-pages` branch from `/ (root)` in Settings → Pages. The earlier source archive includes the pre-upload local Git history.
