@@ -1,0 +1,26 @@
+name: Preview feedback
+description: Share an idea or report a problem in the StormChase preview.
+title: "[Preview] "
+body:
+  - type: textarea
+    id: feedback
+    attributes:
+      label: What did you notice or want to explore?
+      description: Tell us what happened and what you expected.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: Android / Chrome, or Windows / Edge
+  - type: input
+    id: setup
+    attributes:
+      label: Location, time and data mode
+      placeholder: Belleville, +24H, Live environment
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or reproduction steps
+      description: Do not include private GPS coordinates or personal data.
