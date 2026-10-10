@@ -1,0 +1,23 @@
+// One-time browser location. Never watch, persist, or send the raw device fix.
+export function locationFromPosition(p, now=Date.now()) {
+ const {latitude,longitude,accuracy}=p?.coords||{};
+ if(!Number.isFinite(latitude)||Math.abs(latitude)>90||!Number.isFinite(longitude)||Math.abs(longitude)>180||!Number.isFinite(accuracy)||accuracy<0||!Number.isFinite(p.timestamp)||now-p.timestamp>120000||p.timestamp>now+10000)throw Error('The device returned an invalid or old location. Try again or search manually.');
+ return {name:'Browser location',center:[Number(longitude.toFixed(2)),Number(latitude.toFixed(2))],browserFix:{accuracyM:accuracy,capturedAt:new Date(p.timestamp).toISOString()}};
+}
+export function locationError(e) {
+ return e?.code===1?'Location permission was denied. Enable location for this site in your browser and device settings, or enter a city or coordinates.':e?.code===2?'Your device could not determine a location. Check device Location Services; try near a window on a phone, or use city/coordinate search.':e?.code===3?'Location took too long. Retry, turn off high accuracy for a quicker estimate, or search manually.':e?.message||'Location is unavailable. Use city or coordinate search.';
+}
+export function mountBrowserLocation(host,{onLocation,geolocation=navigator.geolocation,secure=window.isSecureContext}={}) {
+ host.innerHTML=`<div class="location-actions"><button id="use-location" type="button">◎ Use my location</button><button id="cancel-location" type="button" class="hidden">Cancel</button><span id="location-status" role="status" aria-live="polite">Choose a city, coordinates, or your device location.</span></div><details class="location-help"><summary>How browser location works</summary><div class="location-help-grid"><p><b>Phone or desktop</b><br>Your browser may use GPS, Wi‑Fi, cell towers or network estimates. We cannot identify or choose the source. Desktop estimates can be less precise.</p><p><b>You control access</b><br>Only requested when you tap the button. Allow the site prompt and enable device Location Services. One fix per click; no continuous tracking or saved location history.</p><p><b>Forecast privacy & accuracy</b><br>Coordinates are rounded to 0.01° (about 1 km) before requesting Open-Meteo and NWS forecasts. Those providers receive this rounded point. A device fix and a model grid both have uncertainty; this is not a storm intercept.</p><p><b>Sharing</b><br>Exported scenarios include the selected coordinates. Review them before sharing. Browser location does not automatically locate alerts, radar or tornadoes.</p></div><label><input id="location-high-accuracy" type="checkbox"> Request higher accuracy (may take longer and use more battery)</label></details>`;
+ const $=s=>host.querySelector(s),button=$('#use-location'),cancel=$('#cancel-location'),status=$('#location-status');let generation=0,busy=false;
+ const settle=()=>{busy=false;button.disabled=false;button.textContent='◎ Use my location';cancel.classList.add('hidden');$('#location-high-accuracy').disabled=false;};
+ function clear(){++generation;settle();status.textContent='Selected point changed. Use my location to request a new device fix.';}
+ cancel.onclick=()=>{clear();status.textContent='Location request cancelled. Any late result will be ignored.';};
+ button.onclick=()=>{
+  if(secure===false){status.textContent='Browser location requires HTTPS. Use the published GitHub Pages website or search manually.';return;}
+  if(!geolocation){status.textContent='This browser does not support location. Use city or coordinate search.';return;}
+  const id=++generation;busy=true;button.disabled=true;button.textContent='Locating…';cancel.classList.remove('hidden');const high=$('#location-high-accuracy').checked;$('#location-high-accuracy').disabled=true;status.textContent='Allow the browser location prompt. Waiting for a one-time device fix…';
+  try{geolocation.getCurrentPosition(p=>{if(id!==generation)return;settle();try{const point=locationFromPosition(p);const a=point.browserFix.accuracyM;status.textContent=`Device accuracy ±${a>=1000?(a/1000).toFixed(1)+' km':Math.ceil(a)+' m'} · captured ${new Date(p.timestamp).toLocaleTimeString()} · forecast point ${point.center[1].toFixed(2)}, ${point.center[0].toFixed(2)} (rounded).${a>5000?' Approximate location: verify the point before using it.':''}`;onLocation(point);}catch(e){status.textContent=locationError(e);}},e=>{if(id!==generation)return;settle();status.textContent=locationError(e);},{enableHighAccuracy:high,timeout:high?25000:15000,maximumAge:0});}catch(e){settle();status.textContent=locationError(e);}
+ };
+ return {clear,isPending:()=>busy};
+}

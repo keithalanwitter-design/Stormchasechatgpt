@@ -70,8 +70,16 @@ API references: https://open-meteo.com/en/docs/gfs-api and https://www.weather.g
 
 ## GitHub review
 
-Repository: https://github.com/keithalanwitter-design/Stormchasechatgpt . Source visibility is public. Built website files are on `gh-pages`; repository Pages activation is the final owner setting.
+Repository: https://github.com/keithalanwitter-design/Stormchasechatgpt . Source visibility is public. Live preview: https://keithalanwitter-design.github.io/Stormchasechatgpt/ . Built files are published from `gh-pages` at the repository root; no viewer login is required.
 
 To see the app without development tools: open the latest successful **Verify StormChase** run under **Actions**, download the `stormchase-preview` artifact, extract it, and open `StormChase-WHIRL-Preview.html` in a browser with internet and WebGL. Downloading Actions artifacts may require signing in. For the best supported experience, clone this repository and use the quick-start commands above.
 
-Use **Issues → New issue → Preview feedback** to record your device, selected location/time, screenshots and the behavior you expected. Publish the `gh-pages` branch from `/ (root)` in Settings → Pages. The earlier source archive includes the pre-upload local Git history.
+Use **Issues → New issue → Preview feedback** to record your device, selected location/time, screenshots and the behavior you expected. GitHub Pages is enabled on the `gh-pages` branch from `/ (root)`. The earlier source archive includes the pre-upload local Git history.
+
+## Browser location & layer guidance v0.9
+
+Use **Use my location** in the Forecast Center on HTTPS desktop or mobile browsers. It requests a single device fix only after a click, defaults to a quick estimate, and offers optional higher accuracy. The browser chooses GPS/Wi-Fi/cell/network signals; the app cannot identify the source. Reported device accuracy and capture time are shown separately from forecast uncertainty. Coordinates are rounded to 0.01 degrees before Open-Meteo/NWS requests; no raw fix, watch, location history or app-side location persistence is used. The user-facing explanation identifies these providers and warns that exported scenarios include their selected point. Existing city/coordinate entry remains available. Cancellation or a manual point change invalidates late location callbacks. Permission denial, timeouts, unsupported devices and insecure contexts have actionable fallback text. Imported scenarios contain user-provided metadata, not a new device fix.
+
+Overlays include concise plain-language descriptions plus expandable combined guidance. Simulated layer checkboxes and opacity are disabled outside Demo mode; official context is requested independently. The Setup Studio adds calculated model temperature-minus-dew-point spread with a concise guide to moisture, wind direction, cloud and rain. No new tornado thresholds or fitted WHIRL score are introduced.
+
+Verification: 24 JavaScript tests including mocked location permission/error/cancellation/privacy guards; production and portable builds. Actual phone/desktop device fixes and permissions require user-device QA. Cloud browser lacks WebGL; geographic rendering remains to verify on a capable device.

@@ -12,7 +12,7 @@ Future runtime: Cloudflare Pages for static assets; a Worker for identified, cac
 
 ## P0 — complete next (October–November 2026)
 
-1. Verify CI and preview-artifact access in the public Stormchasechatgpt source repository. Website hosting remains disabled.
+1. Verify CI and preview-artifact access in the public Stormchasechatgpt source repository. GitHub Pages is now live; retain anonymous preview verification after updates.
 2. Manually test globe/projection transitions, WebGL failure, mobile layout, keyboard controls and browser feed CORS on Android and desktop. Check preview companion-page navigation.
 3. Add official-feed caching/identification with a server-side User-Agent and correct cache expiry. Test outage, CORS, null geometry, pagination/truncation, cancelled alerts and malformed features. Direct browser fetching is prototype-only.
 4. Add an actual geocoding provider and higher-resolution regional vector tiles after terms/access review. Current search covers eight named cities plus valid latitude/longitude pairs.
@@ -53,3 +53,9 @@ Added separate label/input/case schemas, many-to-many associations, availability
 Implemented premium theme/focus controls and live point setup experiments, with NOAA seamless guidance via Open-Meteo and independent official NWS hourly forecasts. The point forecast has real valid times and provider grid coordinates, but no single model-run initialization. Manual scenarios never change official geometries or create tornado hotspots.
 
 Next priorities: browser/WebGL/mobile verification; cached API adapter with rate control and provider attribution; broader location search; independent HRRR/GFS run selection; native-level soundings for SRH/shear/LCL; radar/observations to assess boundaries and initiation; then reviewed case replay. Full gridded overlays and WHIRL probabilities remain unimplemented.
+
+## v0.9 location checkpoint
+
+Completed: one-time Forecast Center browser location with permission, optional accuracy, rounded provider requests, provenance, cancellation, device error guidance and manual fallback; contextual overlay descriptions; derived near-surface moisture spread.
+
+Prioritized next: (1) user-device iOS/Android/desktop location and WebGL QA, including denied permissions and coarse estimates; (2) cached weather adapter and broader city search; (3) real provenance-bearing gridded overlays and native-level soundings; (4) independent run comparisons and case replay. Continuous chase tracking and hazard-aware routing remain separate future work.

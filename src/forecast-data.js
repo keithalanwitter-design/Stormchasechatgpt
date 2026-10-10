@@ -2,13 +2,13 @@
 export const DEMO_RUN = '2027-05-18T00:00:00Z';
 export const MODELS = {GFS:120, HRRR:48, RAP:21, NAM:84}; // Synthetic catalog, not live availability.
 export const LAYERS = [
- {id:'whirl',name:'WHIRL environments',unit:'Illustrative regions',color:'#a9a2ff'},
- {id:'cape',name:'Mixed-layer CAPE',unit:'J/kg',color:'#c5e87c'},
- {id:'cin',name:'Mixed-layer CIN',unit:'J/kg',color:'#edaf70'},
- {id:'srh',name:'0–500 m SRH',unit:'m²/s²',color:'#b49cfa'},
- {id:'shear',name:'Effective shear',unit:'kt',color:'#81cedf'},
- {id:'lcl',name:'Mixed-layer LCL',unit:'m AGL',color:'#9abeef'},
- {id:'boundaries',name:'Boundary context',unit:'Conceptual line',color:'#ee99ac'}
+ {id:'whirl',hint:'An illustrative environment footprint; no WHIRL calculation or probability.',name:'WHIRL environments',unit:'Illustrative regions',color:'#a9a2ff'},
+ {id:'cape',hint:'Parcel buoyancy: fuel for updrafts, not an initiation guarantee.',name:'Mixed-layer CAPE',unit:'J/kg',color:'#c5e87c'},
+ {id:'cin',hint:'Negative parcel energy: a cap that lifting may need to overcome.',name:'Mixed-layer CIN',unit:'J/kg',color:'#edaf70'},
+ {id:'srh',hint:'Low-level storm-relative wind rotation; depends on storm motion.',name:'0–500 m SRH',unit:'m²/s²',color:'#b49cfa'},
+ {id:'shear',hint:'Wind change across the effective storm layer; supports organization.',name:'Effective shear',unit:'kt',color:'#81cedf'},
+ {id:'lcl',hint:'Mixed-layer cloud-base height; a moisture clue, not a tornado threshold.',name:'Mixed-layer LCL',unit:'m AGL',color:'#9abeef'},
+ {id:'boundaries',hint:'Conceptual surface boundary; position and storm interaction matter.',name:'Boundary context',unit:'Conceptual line',color:'#ee99ac'}
 ];
 export const REGIONS = [
  {id:'plains',name:'Southern Plains',sub:'Oklahoma · southern Kansas',center:[-97.9,36.6],ring:[[-100.5,34.7],[-98.7,34.5],[-96.3,36],[-96.2,38.2],[-98.3,38.7],[-100.2,37.1],[-100.5,34.7]],values:{cape:2200,cin:-45,srh:185,shear:48,lcl:950},context:'A conceptual dryline intersects returning moisture. Initiation and storm mode remain unresolved.'},
