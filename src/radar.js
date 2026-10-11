@@ -1,5 +1,6 @@
-export const RADAR_URL='https://api.rainviewer.com/public/weather-maps.json';
-export const STATIONS_URL='https://api.weather.gov/radar/stations';
+import {PRODUCTS,weatherData,createDataService} from './data-services.js';
+export const RADAR_URL=PRODUCTS.radar.url;
+export const STATIONS_URL=PRODUCTS.stations.url;
 export function normalizeRadar(data,now=Date.now()){
  if(data?.host!=='https://tilecache.rainviewer.com')throw Error('Unexpected radar tile host');
  const frames=(data.radar?.past||[]).filter(f=>Number.isFinite(f.time)&&f.time*1000<=now+60000&&now-f.time*1000<=3*3600000&&/^\/v2\/radar\/[a-zA-Z0-9_-]+$/.test(f.path)).sort((a,b)=>a.time-b.time);
@@ -11,7 +12,7 @@ export function normalizeStations(data){
  if(data?.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('Invalid radar station catalog');
  return {type:'FeatureCollection',features:data.features.filter(f=>/^K?[A-Z0-9]{3,4}$/.test(f.properties?.id)&&f.geometry?.type==='Point'&&f.geometry.coordinates?.length===2&&f.geometry.coordinates.every(Number.isFinite)).map(f=>({...f,properties:{id:f.properties.id,name:f.properties.name,receivedAt:f.properties.latency?.levelTwoLastReceivedTime||null}}))};
 }
-export async function fetchJSON(url,fetcher=fetch){const c=new AbortController(),t=setTimeout(()=>c.abort(),15000);try{const r=await fetcher(url,{signal:c.signal,headers:{Accept:'application/json'}});if(!r.ok)throw Error(`HTTP ${r.status}`);return await r.json();}finally{clearTimeout(t);}}
+export async function fetchJSON(url,fetcher){const product=Object.values(PRODUCTS).find(p=>p.url===url);if(!product)throw Error('Unsupported weather product');const service=fetcher?createDataService({fetcher}):weatherData;return (await service.get(product.id,{force:true})).payload;}
 // SVG regional fallback: place real Web Mercator tiles in the same projection.
 export function regionalTiles(projection,radar,frame,z=4){
  const n=2**z,lat=y=>Math.atan(Math.sinh(Math.PI*(1-2*y/n)))*180/Math.PI;const out=[];

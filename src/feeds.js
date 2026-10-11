@@ -1,4 +1,5 @@
-export const FEEDS={nws:'https://api.weather.gov/alerts/active?status=actual',spc:'https://www.spc.noaa.gov/products/outlook/day1otlk_cat.lyr.geojson'};
+import {PRODUCTS,weatherData,createDataService} from './data-services.js';
+export const FEEDS={nws:PRODUCTS.nws.url,spc:PRODUCTS.spc.url};
 export function parseSourceTime(value){
  if(typeof value==='number'&&value>1e12)return new Date(value).toISOString();
  if(typeof value==='string'&&/^\d{12}$/.test(value)){const s=value;value=`${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}T${s.slice(8,10)}:${s.slice(10,12)}:00Z`;}
@@ -13,7 +14,7 @@ export function normalizeFeed(kind,data,now=Date.now()){
  const stale=kind==='spc'&&(!expires||Date.parse(expires)<=now);
  return {kind,status:stale?'stale':'ready',data:{type:'FeatureCollection',features:active},source:FEEDS[kind],issuedAt:issue,expiresAt:expires,retrievedAt:new Date(now).toISOString(),isProbability:false};
 }
-export async function fetchFeed(kind,fetcher=fetch){
- if(!FEEDS[kind])throw Error('Unknown feed');const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);
- try{const res=await fetcher(FEEDS[kind],{signal:controller.signal,headers:{Accept:'application/geo+json'}});if(!res.ok)throw Error(`HTTP ${res.status}`);return normalizeFeed(kind,await res.json());}finally{clearTimeout(timer);}
+export async function fetchFeed(kind,fetcher){
+ if(!FEEDS[kind])throw Error('Unknown feed');const service=fetcher?createDataService({fetcher}):weatherData;
+ const snapshot=await service.get(kind,{force:true});return {...normalizeFeed(kind,snapshot.payload,Date.parse(snapshot.retrievedAt)),provider:snapshot.provider,clock:snapshot.clock};
 }
