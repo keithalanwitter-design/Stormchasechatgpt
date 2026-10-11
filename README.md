@@ -98,3 +98,5 @@ Open **Layers** on the forecast globe: radar precipitation, NWS radar locations,
 Next priorities: NOAA MRMS direct imagery with frame metadata; individual-site reflectivity/velocity and quality controls; SPC Days 2–3 and probabilistic products; radar coverage/outage masks; phone touch and GPU testing.
 
 The default Chase theme uses charcoal, storm amber and strong sans-serif type. The front page emphasizes radar, severe-weather ingredients and chase planning; decorative observatory language has been removed. Ion and Ember themes remain selectable. Operational SPC/radar colors retain their existing meaning.
+
+Chase workflow refinement: top Hotspots directs to the bottom Field guide; the explicitly simulated hotspot demo is launched there. The guide includes Scout / Verify / Test / Adapt steps, six expandable FAQs, a return-to-live action and a collapsed simulated model comparison. Current weather remains the initial mode. Stronger type and amber/orange accents carry the Chase theme without claiming an active outbreak or forecast certainty.
