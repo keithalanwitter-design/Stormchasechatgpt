@@ -3,7 +3,7 @@ import './forecast.css';
 import world from './geography/world.json';
 import states from './geography/states.json';
 import {DEMO_RUN,MODELS,LAYERS,REGIONS,CITIES,validTime,available,valuesFor,demoFeatures,searchLocation,validateCase} from './forecast-data.js';
-import {fetchFeed,FEEDS} from './feeds.js';
+import {fetchFeed,FEEDS,parseSourceTime} from './feeds.js';
 import {RADAR_URL,STATIONS_URL,fetchJSON,normalizeRadar,normalizeStations,tileURL} from './radar.js';
 import {mountGlobeFallback} from './globe-fallback.js';
 import './observatory.css';
@@ -50,7 +50,7 @@ function makeMap(){
  for(const l of LAYERS.filter(l=>l.id!=='boundaries')){map.addLayer({id:`fill-${l.id}`,type:'fill',source:'demo',paint:{'fill-color':l.color,'fill-opacity':l.id==='whirl'?.24:0}});map.addLayer({id:`line-${l.id}`,type:'line',source:'demo',paint:{'line-color':l.color,'line-width':1.2,'line-opacity':l.id==='whirl'?.8:0}});map.on('click',`fill-${l.id}`,e=>selectRegion(e.features?.[0]?.properties.id));map.on('mouseenter',`fill-${l.id}`,()=>map.getCanvas().style.cursor='pointer');map.on('mouseleave',`fill-${l.id}`,()=>map.getCanvas().style.cursor='');}
  map.addSource('boundaries',{type:'geojson',data:{type:'FeatureCollection',features:[{type:'Feature',properties:{},geometry:{type:'LineString',coordinates:[[-100,32],[-99,35],[-98.7,38.2],[-95,40]]}}]}});map.addLayer({id:'boundary-line',type:'line',source:'boundaries',paint:{'line-color':'#ed94aa','line-width':2,'line-dasharray':[3,2],'line-opacity':0}});
  for(const kind of ['spc','nws']){map.addSource(kind,{type:'geojson',data:{type:'FeatureCollection',features:[]}});map.addLayer({id:`${kind}-fill`,type:'fill',source:kind,paint:{'fill-color':kind==='spc'?['coalesce',['get','fill'],'#e2b877']:'#fa827f','fill-opacity':0}});map.addLayer({id:`${kind}-line`,type:'line',source:kind,paint:{'line-color':kind==='spc'?['coalesce',['get','stroke'],'#e2b877']:'#fa827f','line-width':1.4,'line-opacity':0}});}
- for(const kind of ['spc','nws'])map.on('click',`${kind}-fill`,e=>{const p=e.features?.[0]?.properties;if(p)new maplibregl.Popup().setLngLat(e.lngLat).setHTML(`<b>${esc(kind==='nws'?p.event:p.LABEL||'SPC Day 1 outlook')}</b><p>${esc(kind==='nws'?p.areaDesc:'Current categorical outlook')}</p><small>Issued ${esc(utc(kind==='nws'?p.sent:p.ISSUE))}<br>Expires ${esc(utc(kind==='nws'?p.expires:p.EXPIRE))}</small>`).addTo(map);});
+ for(const kind of ['spc','nws'])map.on('click',`${kind}-fill`,e=>{const p=e.features?.[0]?.properties;if(p)new maplibregl.Popup().setLngLat(e.lngLat).setHTML(`<b>${esc(kind==='nws'?p.event:p.LABEL||'SPC Day 1 outlook')}</b><p>${esc(kind==='nws'?p.areaDesc:'Current categorical outlook')}</p><small>Issued ${esc(utc(parseSourceTime(kind==='nws'?p.sent:p.ISSUE)))}<br>Expires ${esc(utc(parseSourceTime(kind==='nws'?p.expires:p.EXPIRE)))}</small>`).addTo(map);});
  map.addSource('radar-stations',{type:'geojson',data:{type:'FeatureCollection',features:[]}});map.addLayer({id:'radar-stations',type:'circle',source:'radar-stations',paint:{'circle-radius':4,'circle-color':'#8cf5df','circle-stroke-color':'#0a1830','circle-stroke-width':1.5,'circle-opacity':0}});
  map.on('click','radar-stations',e=>{e.originalEvent.stopPropagation();showStation(e.features?.[0]?.properties);});
  updateMap();});
@@ -122,8 +122,8 @@ function syncMode(){
  $('#mode-summary').textContent=live?'Real point guidance · scenarios stay separate':state.scope==='demo'?'Illustrative hotspots · synthetic guidance':'Official SPC / NWS · current issued context';
  $('#forecast-notice').innerHTML=live?'<b>LIVE POINT GUIDANCE</b> · NOAA model data via Open-Meteo; independent NWS forecast. Click the map or search to sample a location. No WHIRL score or tornado target.':state.scope==='demo'?'<b>DEMO HOTSPOTS</b> · All regions and ingredient values are simulated. The May 2027 timeline is illustrative.':'<b>OFFICIAL CONTEXT</b> · Current SPC outlooks and NWS alerts. Load or refresh below. The simulation timeline does not control these products.';
  if(live){const row=pointState?.row;$('#valid-time').textContent=row?`VALID ${utc(row.validAt)} · NOW +${state.lead}H`:'LIVE VALID TIME · waiting for point guidance';$('#lead-status').textContent='Point forecast only · no single initialization supplied';}
- $('.left-panel .panel-title small').textContent=state.scope==='demo'?'SIMULATED':'DEMO ONLY';
- $('#layer-mode-hint').textContent=state.scope==='demo'?'Illustrative regional fills, not real atmospheric grids.':'Choose Demo hotspots to explore these simulated layers. Real point ingredients appear in the Setup Studio; Turn on current radar, stations, SPC and NWS layers above.';
+ $('.left-panel .panel-title small').textContent=state.scope==='demo'?'SIMULATED':'LIVE + DEMO';
+ $('#layer-mode-hint').textContent=state.scope==='demo'?'Illustrative regional fills, not real atmospheric grids.':'Choose Demo hotspots to explore these simulated layers. Turn on current radar, stations, SPC and NWS layers below. Simulated ingredients require Demo hotspots mode.';
  document.querySelectorAll('[data-layer], #opacity').forEach(el=>el.disabled=state.scope!=='demo');
  $('.right-panel .panel-title h2').textContent=live?'Location explorer':'Environment explorer';
  $('.right-panel .panel-title small').textContent=live?'POINT GUIDANCE':'3 DEMO REGIONS';
