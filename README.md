@@ -83,3 +83,11 @@ Use **Use my location** in the Forecast Center on HTTPS desktop or mobile browse
 Overlays include concise plain-language descriptions plus expandable combined guidance. Simulated layer checkboxes and opacity are disabled outside Demo mode; official context is requested independently. The Setup Studio adds calculated model temperature-minus-dew-point spread with a concise guide to moisture, wind direction, cloud and rain. No new tornado thresholds or fitted WHIRL score are introduced.
 
 Verification: 24 JavaScript tests including mocked location permission/error/cancellation/privacy guards; production and portable builds. Actual phone/desktop device fixes and permissions require user-device QA. Cloud browser lacks WebGL; geographic rendering remains to verify on a capable device.
+
+## Observatory v0.10
+
+The main forecast is now a wide globe scene with a floating point card, a collapsed Layers drawer, expandable region shortcuts and compact timeline. The Setup Studio adds bounded one-click moisture/cap scenario experiments and expandable ingredient explanations. Location search/GPS remains collapsed below the studio. These changes preserve the existing live/demo/official separation.
+
+WebGL-capable browsers retain MapLibre. If WebGL initialization fails, a bundled D3 orthographic SVG globe supports drag/keyboard rotation, coordinate selection, regional projection, simulated regions and current official geometry. It uses the same Natural Earth geography; it is a geographic renderer, not satellite imagery or an atmospheric grid. The SVG demo renderer uses a common simulated footprint and does not distinguish every layer style. The full layer rendering remains in MapLibre.
+
+Verification: 26 JavaScript tests, production build, portable no-WebGL smoke check. Browser visual review verifies the SVG fallback; GPU rendering and actual mobile touch behavior require device QA. Next priorities remain actual gridded overlays, native-level soundings, identified model runs and case replay.
