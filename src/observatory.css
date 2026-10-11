@@ -12,3 +12,34 @@ button{transition:background .18s,border-color .18s,box-shadow .18s,transform .1
 @media(prefers-reduced-motion:reduce){button{transition:none}.point-marker:after{animation:none}}
 .live-map-controls{padding:0 18px 18px;border-bottom:1px solid #ffffff20}.live-map-controls h3{font-size:13px;color:var(--accent,#c7bcff)}.live-map-controls label{display:flex;gap:10px;align-items:center;margin:13px 0;font-size:13px}.live-map-controls input[type=checkbox]{accent-color:#9df0df}.live-map-controls p{font-size:11px;line-height:1.6;color:#a9b8ce;overflow-wrap:anywhere}.live-map-controls input[type=range]{width:100%}.live-map-controls a{color:#a8e5df}.live-map-controls button{font-size:12px}.fallback-globe circle[data-station]{cursor:pointer}
 .maplibregl-popup-content{background:#17243b;color:#e0edf5;border:1px solid #67829e;border-radius:12px;font:12px/1.6 sans-serif}.maplibregl-popup-close-button{color:white}.maplibregl-popup-tip{border-top-color:#17243b!important}
+/* Chase command: strong operational hierarchy; product colors retain their meaning. */
+body[data-theme=chase]{--accent:#ffb347;--accent-rgb:255,179,71;--panel:#121820;background:radial-gradient(ellipse at 80% 0,#24241f 0,transparent 55%),#090d12;color:#f0f3f5}
+body[data-theme=chase] .app-header{background:#090e14e8;border-bottom:1px solid #ffb34730}
+body[data-theme=chase] .brand strong{font-weight:900;letter-spacing:2.4px;font-style:italic;font-size:19px}
+body[data-theme=chase] .brand svg{color:#ffb347}
+body[data-theme=chase] .title-row h1{font-weight:800;letter-spacing:-.8px;font-size:29px}
+body[data-theme=chase] .eyebrow{color:#ffb347;font-weight:700;letter-spacing:1.7px}
+body[data-theme=chase] .main-nav button,body[data-theme=chase] .mode-switch,body[data-theme=chase] .mode-switch button,body[data-theme=chase] #focus-mode,body[data-theme=chase] .map-toolbar>button,body[data-theme=chase] .view-tabs,body[data-theme=chase] .view-tabs button{border-radius:7px}
+body[data-theme=chase] .main-nav button.active{border-color:#ffb3475c;color:#ffb347;background:#ffb3470b}
+body[data-theme=chase] .map-panel{border-radius:16px;border-color:#8999aa35;background:radial-gradient(ellipse at 60% 50%,#182e3a,#0c1721 45%,#080e15 80%);box-shadow:0 25px 60px #0007,inset 0 3px #ffb347}
+body[data-theme=chase] .map-panel:before{background-image:linear-gradient(#ffffff03 1px,transparent 1px),linear-gradient(90deg,#ffffff03 1px,transparent 1px);background-size:64px 64px;opacity:.55}
+body[data-theme=chase] .map-panel:after{border-radius:16px}
+body[data-theme=chase] .orbit-decoration{display:none}
+body[data-theme=chase] .globe-caption{max-width:480px;top:115px}
+body[data-theme=chase] .globe-caption .large{font-family:Impact,'Arial Narrow',system-ui,sans-serif;font-size:clamp(42px,4.3vw,70px);font-weight:900;line-height:1.03;letter-spacing:-1px;text-transform:uppercase}
+body[data-theme=chase] .globe-caption em{font-family:inherit;font-style:normal;font-weight:900;color:#ffb347}
+body[data-theme=chase] .globe-caption .eyebrow{color:#bac8d7;letter-spacing:1.5px;font-size:9px}
+body[data-theme=chase] .globe-caption p:not(.eyebrow){max-width:290px;font-size:12px;color:#c0ccda}
+body[data-theme=chase] .globe-caption button{border-radius:7px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;box-shadow:0 5px 24px #ffb34725}
+body[data-theme=chase] .map-label,body[data-theme=chase] .map-legend{border-radius:6px}
+body[data-theme=chase] .right-panel,body[data-theme=chase] .left-panel{border-radius:12px;background:linear-gradient(140deg,#1b2633ed,#0d151ff0);border-color:#96a5ba35}
+body[data-theme=chase] .evidence h3{font-weight:750;letter-spacing:-.3px}
+body[data-theme=chase] .metric b{font-weight:650}
+body[data-theme=chase] .evidence>button{border-radius:6px;font-weight:750}
+body[data-theme=chase] .timeline{border-radius:0 0 12px 12px;background:linear-gradient(120deg,#171e26,#101820)}
+body[data-theme=chase] .days button{border-radius:6px}
+body[data-theme=chase] .setup-studio{border-radius:14px;border-top:2px solid #ffb34770}
+body[data-theme=chase] .studio-heading h2{font-family:system-ui,sans-serif;font-weight:850;font-size:36px;letter-spacing:-1.1px}
+body[data-theme=chase] .studio-heading h2 span{font-family:inherit;font-style:normal;font-weight:850}
+body[data-theme=chase] .live-map-controls input[type=checkbox]{accent-color:#ffb347}
+@media(max-width:760px){body[data-theme=chase] .title-row h1{font-size:21px}body[data-theme=chase] .globe-caption{top:115px;max-width:280px}body[data-theme=chase] .globe-caption .large{font-size:42px}body[data-theme=chase] .globe-caption .eyebrow{font-size:7px;letter-spacing:1px}body[data-theme=chase] .studio-heading h2{font-size:29px}body[data-theme=chase] .timeline{border-radius:12px}}
