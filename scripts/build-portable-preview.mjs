@@ -21,4 +21,4 @@ for(const page of pages){
 const encoded=Object.fromEntries(Object.entries(rendered).filter(([name])=>name!=='index.html').map(([name,html])=>[name,Buffer.from(html).toString('base64')]));
 const bridge=`<script>(()=>{const pages=${JSON.stringify(encoded)},home=location.href,urls={};for(const [name,data] of Object.entries(pages)){let html=new TextDecoder().decode(Uint8Array.from(atob(data),c=>c.charCodeAt(0)));html=html.replaceAll('href="./"','href="'+home+'"');urls[name]=URL.createObjectURL(new Blob([html],{type:'text/html'}));}document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const href=a.getAttribute('href')||'';const key=href.startsWith('./')?href.slice(2):href;if(urls[key]){e.preventDefault();window.open(urls[key],'_blank','noopener');}});})();</script>`;
 await writeFile(resolve(out,'StormChase-WHIRL-Preview.html'),rendered['index.html'].replace('</body>',()=>bridge+'</body>'));
-console.log('Portable preview generated. WebGL required; official feeds still require network/CORS.');
+console.log('Portable preview generated. Interactive SVG fallback available; official feeds still require network/CORS.');

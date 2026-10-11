@@ -61,7 +61,7 @@ function updateMap(){
  $('#globe-caption').classList.toggle('hidden',state.view!=='globe'||state.scope==='official');
  $('#scope-switch').textContent=state.scope==='demo'?'View current official context →':'← Return to simulated forecast';
  $('#lead-status').textContent=state.scope==='live'?'Point forecast only · no single initialization supplied':state.scope==='official'?'Map shows current official data; demo timeline does not control it':'Illustrative output · no forecast pipeline connected';
- globeFallback?.update({scope:state.scope,point:pointState?.location,regions:state.layers.size?demoFeatures(state.lead,state.model):null,opacity:state.opacity*.5,feeds:state.feeds});
+ globeFallback?.update({scope:state.scope,point:pointState?.location,regions:[...state.layers].some(id=>id!=='boundaries')?demoFeatures(state.lead,state.model):null,color:LAYERS.filter(l=>l.id!=='boundaries'&&state.layers.has(l.id)).at(-1)?.color,showBoundary:state.layers.has('boundaries'),opacity:state.opacity*.5,feeds:state.feeds});
  if(!state.mapReady)return;
  pointMarker?.remove();pointMarker=null;if(state.scope==='live'){const el=document.createElement('div');el.className='point-marker';el.setAttribute('aria-label','Selected point, not a tornado target');pointMarker=new maplibregl.Marker({element:el}).setLngLat(pointState?.location?.center||[-89.98,38.52]).addTo(map);}
  map.getSource('demo').setData(demoFeatures(state.lead,state.model));
