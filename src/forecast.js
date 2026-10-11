@@ -82,7 +82,8 @@ function selectRegion(id){const r=REGIONS.find(r=>r.id===id);if(!r)return;if(sta
 function setMapInteraction(on){state.mapInteraction=on;$('#map-interact').setAttribute('aria-pressed',String(on));$('#map-interact').textContent=on?'Done moving':'Move map';$('#weather-map').dataset.interacting=String(on);for(const id of ['dragPan','dragRotate','touchZoomRotate','keyboard'])map?.[id]?.[on?'enable':'disable']?.();map?.scrollZoom?.disable?.();globeFallback?.setInteraction(on);$('#map-coords').textContent=on?'DRAG TO MOVE · DONE MOVING TO SCROLL':'SCROLL TO CONTINUE · MOVE MAP TO EXPLORE';}
 $('#map-interact').onclick=()=>setMapInteraction(!state.mapInteraction);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.mapInteraction)setMapInteraction(false);});
-document.querySelectorAll('.section-nav a,.hero-continue').forEach(a=>a.addEventListener('click',()=>setMapInteraction(false)));
+function restoreWorkspace(){document.body.classList.remove('focus-view');$('#focus-mode').textContent='Focus view ⤢';setMapInteraction(false);map?.resize?.();}
+document.querySelectorAll('.section-nav a,.hero-continue,.field-guide-link').forEach(a=>a.addEventListener('click',restoreWorkspace));
 $('#toggle-layers').onclick=()=>{const closed=$('#layer-drawer').classList.toggle('hidden');$('#toggle-layers').setAttribute('aria-expanded',String(!closed));};
 $('#jump-studio').onclick=()=>$('#setup-studio').scrollIntoView?.({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 $('#globe-view').onclick=()=>switchView('globe');$('#regional-view').onclick=()=>switchView('regional');$('#explore').onclick=()=>{switchView('regional');if(state.scope==='demo')return;for(const k of ['radar','stations']){state.visible[k]=true;document.querySelector(`[data-live=${k}]`).checked=true;}loadRadar();loadStations();};$('#reset-view').onclick=()=>switchView('globe');
@@ -138,7 +139,7 @@ function syncMode(){
 }
 function setScope(scope){stopPlay();state.scope=scope;if(scope==='live')studio?.setLead(state.lead);update();}
 function revealMap(){setMapInteraction(false); $('.map-panel').scrollIntoView?.({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}); }
-$('#mode-live').onclick=()=>setScope('live');$('#mode-hotspots').onclick=()=>$('#hotspot-demo').scrollIntoView?.({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});$('#mode-demo').onclick=()=>{setScope('demo');revealMap();};$('#exit-demo').onclick=()=>{setScope('live');revealMap();};$('#mode-official').onclick=()=>setScope('official');
+$('#mode-live').onclick=()=>setScope('live');$('#mode-hotspots').onclick=()=>{restoreWorkspace();$('#hotspot-demo').scrollIntoView?.({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});};$('#mode-demo').onclick=()=>{setScope('demo');revealMap();};$('#exit-demo').onclick=()=>{setScope('live');revealMap();};$('#mode-official').onclick=()=>setScope('official');
 $('#focus-mode').onclick=()=>{document.body.classList.toggle('focus-view');$('#focus-mode').textContent=document.body.classList.contains('focus-view')?'Exit focus ⤡':'Focus view ⤢';map?.resize?.();};
 document.body.dataset.theme='chase';try{const saved=localStorage.getItem('stormchase-theme');if(['ion','ember','chase'].includes(saved))document.body.dataset.theme=saved;}catch{}
 document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{document.body.dataset.theme=b.dataset.theme;try{localStorage.setItem('stormchase-theme',b.dataset.theme);}catch{}});
